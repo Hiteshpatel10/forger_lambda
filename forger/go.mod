@@ -1,0 +1,16 @@
+require (
+	github.com/aws/aws-lambda-go v1.36.1
+	github.com/aws/aws-sdk-go v1.54.20
+	github.com/disintegration/imaging v1.6.2
+)
+
+require (
+	github.com/jmespath/go-jmespath v0.4.0 // indirect
+	golang.org/x/image v0.0.0-20191009234506-e7c1f5e7dbb8 // indirect
+)
+
+replace gopkg.in/yaml.v2 => gopkg.in/yaml.v2 v2.2.8
+
+module forger
+
+go 1.18

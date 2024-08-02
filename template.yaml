@@ -1,0 +1,56 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+
+Globals:
+  Api:
+    BinaryMediaTypes:
+      - "application/json"
+    Cors:
+      AllowMethods: "'GET,POST,OPTIONS'"
+      AllowHeaders: "'content-type'"
+      AllowOrigin: "'*'"
+      AllowCredentials: "'true'"
+
+Resources:
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: go1.x
+    Properties:
+      CodeUri: forger/
+      Handler: bootstrap
+      Runtime: provided.al2023
+      Architectures:
+        - x86_64
+      Timeout: 10
+      Events:
+        ChaptersApi:
+          Type: Api
+          Properties:
+            Path: /gita/chapter/{chapterNumber}
+            Method: GET
+        VerseApi:
+          Type: Api
+          Properties:
+            Path: /gita/verse/{verseId}
+            Method: GET
+        ImagerApi:
+          Type: Api
+          Properties:
+            Path: /imager/image-generator
+            Method: POST
+        CreateUserApi:
+          Type: Api
+          Properties:
+            Path: /gita/createUser
+            Method: POST
+        UserApi:
+          Type: Api
+          Properties:
+            Path: /gita/user
+            Method: GET
+        UserReadApi:
+          Type: Api
+          Properties:
+            Path: /gita/updateRead
+            Method: POST

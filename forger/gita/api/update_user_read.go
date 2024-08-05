@@ -14,33 +14,6 @@ import (
 
 func UpdateUserRead(request events.APIGatewayProxyRequest, svc *dynamodb.DynamoDB) events.APIGatewayProxyResponse {
 
-	// var requestBody map[string]interface{}
-	// decodedBody, err := base64.StdEncoding.DecodeString(request.Body)
-	// if err != nil {
-	// 	return responseBuilder(0, requestBody, "Error decoding base64 body", "Failed to extract email")
-
-	// }
-
-	// // Unmarshal the decoded body into a map
-	// err = json.Unmarshal(decodedBody, &requestBody)
-	// if err != nil {
-	// 	return responseBuilder(0, requestBody, "Error unmarshalling JSON body", "Failed to extract email")
-
-	// }
-
-	// var updateRead models.UpdateRead
-	// err = json.Unmarshal(decodedBody, &updateRead)
-	// if err != nil {
-	// 	return responseBuilder(0, request.Body, "invalid JSON body", "invalid JSON body")
-	// }
-
-	// Extract user's email from request headers
-	// email, err := headerHandler(request.Headers)
-	// if err != nil {
-	// 	log.Printf("Error extracting email: %s", err)
-	// 	return responseBuilder(0, nil, "Internal Server Error", "Failed to extract email")
-	// }
-
 	email, err := headerHandler(request.Headers)
 	if err != nil {
 		log.Printf("Error extracting email: %s", err)

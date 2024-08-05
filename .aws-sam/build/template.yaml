@@ -53,3 +53,8 @@ Resources:
           Properties:
             Path: /gita/updateRead
             Method: POST
+        UpdateFCMpi:
+          Type: Api
+          Properties:
+            Path: /gita/updateFCM
+            Method: POST

@@ -3,6 +3,7 @@ package api
 import (
 	"forger/gita/models"
 	"log"
+	"time"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-sdk-go/aws"
@@ -74,6 +75,7 @@ func CreateUser(request events.APIGatewayProxyRequest, svc *dynamodb.DynamoDB) e
 		DisplayName: createUserBody.DisplayName,
 		ProfileURL:  createUserBody.ProfileURL,
 		Reads:       reads,
+		CreatedAt:   time.Now().Format(time.RFC3339),
 	}
 
 	av, err := dynamodbattribute.MarshalMap(user)

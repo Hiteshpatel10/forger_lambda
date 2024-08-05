@@ -13,6 +13,8 @@ type User struct {
 	FCMToken    *string `json:"fcm_token,omitempty"`
 	LastRead    string  `json:"last_read"`
 	Reads       []Read  `json:"reads"`
+	UpdatedAt   string  `json:"updated_at,omitempty"`
+	CreatedAt   string  `json:"created_at,omitempty"`
 }
 
 type UpdateRead struct {

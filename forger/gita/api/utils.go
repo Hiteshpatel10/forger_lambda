@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"regexp"
 	"strings"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -56,7 +57,18 @@ func headerHandler(headers map[string]string) (string, error) {
 
 	email := tokenParts[1]
 
+	// Validate email format
+	if !isValidEmail(email) {
+		return "", errors.New("invalid email format")
+	}
+
 	return email, nil
+}
+
+func isValidEmail(email string) bool {
+	const emailRegex = `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`
+	re := regexp.MustCompile(emailRegex)
+	return re.MatchString(email)
 }
 
 func decodeAndUnmarshal[T any](request events.APIGatewayProxyRequest) (T, error) {

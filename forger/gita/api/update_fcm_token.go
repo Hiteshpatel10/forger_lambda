@@ -2,6 +2,7 @@ package api
 
 import (
 	"log"
+	"time"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-sdk-go/aws"
@@ -35,10 +36,13 @@ func UpdateFCMToken(request events.APIGatewayProxyRequest, svc *dynamodb.DynamoD
 			":fcm_token": {
 				S: aws.String(body.FCMToken),
 			},
+			":updated_at": {
+				S: aws.String(time.Now().Format(time.RFC3339)), // or any other desired format
+			},
 		},
 		TableName:        aws.String("User"),
 		ReturnValues:     aws.String("UPDATED_NEW"),
-		UpdateExpression: aws.String("set FCMToken = :fcm_token"),
+		UpdateExpression: aws.String("set fcm_token = :fcm_token, updated_at = :updated_at"),
 	}
 
 	_, err = svc.UpdateItem(input)

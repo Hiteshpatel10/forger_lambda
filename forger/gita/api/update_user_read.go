@@ -5,6 +5,7 @@ import (
 	"forger/gita/models"
 	"log"
 	"sort"
+	"time"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-sdk-go/aws"
@@ -52,6 +53,7 @@ func UpdateUserRead(request events.APIGatewayProxyRequest, svc *dynamodb.DynamoD
 		return responseBuilder(0, nil, "Internal Server Error", "Failed to unmarshal user data")
 	}
 
+	user.UpdatedAt = time.Now().Format(time.RFC3339)
 	for i := range user.Reads {
 		if user.Reads[i].Chapter == updateRead.ChapterNo {
 			// Check if the verse number is already present

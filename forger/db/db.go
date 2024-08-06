@@ -17,6 +17,7 @@ func init() {
 		},
 		SharedConfigState: session.SharedConfigEnable,
 	})
+
 	if err != nil {
 		fmt.Println("Error creating session:", err)
 	}

@@ -31,7 +31,7 @@ func main() {
 
 	// svc := dynamodb.New(db.DB())
 
-	// migrations.CreateUserTable(svc)
+	// migrations.CreateUserActivityTable(svc)
 
 	lambda.Start(handler)
 

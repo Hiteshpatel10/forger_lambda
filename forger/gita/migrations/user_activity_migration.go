@@ -14,11 +14,19 @@ func CreateUserActivityTable(svc *dynamodb.DynamoDB) error {
 				AttributeName: aws.String("email"),
 				AttributeType: aws.String("S"),
 			},
+			{
+				AttributeName: aws.String("date"),
+				AttributeType: aws.String("S"),
+			},
 		},
 		KeySchema: []*dynamodb.KeySchemaElement{
 			{
 				AttributeName: aws.String("email"),
 				KeyType:       aws.String("HASH"),
+			},
+			{
+				AttributeName: aws.String("date"),
+				KeyType:       aws.String("RANGE"),
 			},
 		},
 

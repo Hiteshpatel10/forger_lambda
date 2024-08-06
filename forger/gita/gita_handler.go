@@ -30,6 +30,14 @@ func GitaHandler(request events.APIGatewayProxyRequest) events.APIGatewayProxyRe
 		return api.UpdateFCMToken(request, svc)
 	}
 
+	if strings.Contains(request.Path, "/gita/updateUserActivity") {
+		return api.UpdateUserActivity(request)
+	}
+
+	if strings.Contains(request.Path, "/gita/getUserWeekActivity") {
+		return api.GetUserWeekActivity(request)
+	}
+
 	if strings.Contains(request.Path, "/gita/chapter") {
 		return api.GetChapter(request)
 	}

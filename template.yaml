@@ -59,3 +59,13 @@ Resources:
           Properties:
             Path: /gita/updateFCM
             Method: POST
+        UpdateUserActivtyMpi:
+          Type: Api
+          Properties:
+            Path: /gita/updateUserActivity
+            Method: POST
+        GetUserWeekActivtyMpi:
+          Type: Api
+          Properties:
+            Path: /gita/getUserWeekActivity
+            Method: GET

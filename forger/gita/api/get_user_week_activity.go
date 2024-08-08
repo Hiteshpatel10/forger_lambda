@@ -13,6 +13,7 @@ import (
 
 type UserActivity struct {
 	Date     string `json:"date"`
+	Day      string `json:"day,omitempty"`
 	Activity []struct {
 		ChapterNo string `json:"chapter_no"`
 		VerseNo   string `json:"verse_no"`
@@ -80,23 +81,27 @@ func GetUserWeekActivity(request events.APIGatewayProxyRequest) events.APIGatewa
 
 	weekActivity := make([]UserActivity, 7)
 	today := time.Now().Format("2006-01-02")
-
+	daysOfWeek := []string{"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"}
 	for i := 0; i < 7; i++ {
 		date := startOfWeek.AddDate(0, 0, i).Format("2006-01-02")
+		day := daysOfWeek[i]
 		if date > today {
 			weekActivity[i] = UserActivity{
 				Date:     date,
+				Day:      day,
 				Activity: nil,
 			}
 		} else if activities, found := activityMap[date]; found {
 
 			weekActivity[i] = UserActivity{
 				Date:     date,
+				Day:      day,
 				Activity: activities,
 			}
 		} else {
 			weekActivity[i] = UserActivity{
 				Date: date,
+				Day:  day,
 				Activity: []struct {
 					ChapterNo string `json:"chapter_no"`
 					VerseNo   string `json:"verse_no"`

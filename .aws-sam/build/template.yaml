@@ -67,4 +67,4 @@ Resources:
           Type: Api
           Properties:
             Path: /gita/getUserWeekActivity
-            Method: GET
+            Method: POST

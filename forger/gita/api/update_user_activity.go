@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"forger/db"
 	"log"
 	"time"
@@ -14,13 +15,14 @@ import (
 const tableName = "UserActivity"
 
 // RequestBody structure for incoming request
-type RequestBody struct {
-	ChapterNo string `json:"chapter_no"`
-	VerseNo   string `json:"verse_no"`
-}
 
 // UpdateUserActivity updates the user's activity for a specific date
 func UpdateUserActivity(request events.APIGatewayProxyRequest) events.APIGatewayProxyResponse {
+
+	type RequestBody struct {
+		ChapterNo int `json:"chapter_no"`
+		VerseNo   int `json:"verse_no"`
+	}
 	svc := dynamodb.New(db.DB())
 
 	email, err := headerHandler(request.Headers)
@@ -32,7 +34,7 @@ func UpdateUserActivity(request events.APIGatewayProxyRequest) events.APIGateway
 	body, err := decodeAndUnmarshal[RequestBody](request)
 	if err != nil {
 		log.Printf("Error decoding and unmarshalling request body: %s", err)
-		return responseBuilder(0, nil, "Bad Request", "Failed to parse request body")
+		return responseBuilder(0, request.Body, "Bad Request", err.Error())
 	}
 
 	currentTime := time.Now()
@@ -40,13 +42,13 @@ func UpdateUserActivity(request events.APIGatewayProxyRequest) events.APIGateway
 
 	updateExpression := "SET #activity = list_append(if_not_exists(#activity, :empty_list), :new_activity)"
 	activity := map[string]*dynamodb.AttributeValue{
-		"chapter_no": {S: aws.String(body.ChapterNo)},
-		"verse_no":   {S: aws.String(body.VerseNo)},
+		"chapter_no": {N: aws.String(fmt.Sprintf("%d", body.ChapterNo))},
+		"verse_no":   {N: aws.String(fmt.Sprintf("%d", body.VerseNo))},
 	}
 	conditionExpression := "not contains(#activity, :existing_activity)"
 	existingActivity := map[string]*dynamodb.AttributeValue{
-		"chapter_no": {S: aws.String(body.ChapterNo)},
-		"verse_no":   {S: aws.String(body.VerseNo)},
+		"chapter_no": {N: aws.String(fmt.Sprintf("%d", body.ChapterNo))},
+		"verse_no":   {N: aws.String(fmt.Sprintf("%d", body.VerseNo))},
 	}
 
 	updateParams := &dynamodb.UpdateItemInput{
